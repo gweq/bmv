@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #ff6b9d;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .question {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn {
+            background: #ff6b9d;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background: #ff4081;
+            transform: scale(1.1);
+        }
+
+        #noBtn {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        #noBtn:hover {
+            background: #d0d0d0;
+        }
+
+        .meme-container {
+            margin-top: 20px;
+        }
+
+        .meme-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .meme-text {
+            font-size: 1.2em;
+            color: #ff6b9d;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .success-message {
+            display: none;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .hearts {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .question {
+                font-size: 1.2em;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="questionSection">
+            <h1>💝 Valentine's Day 💝</h1>
+            <p class="question">Will you be my Valentine?</p>
+            <div class="buttons">
+                <button id="yesBtn">Yes! 💕</button>
+                <button id="noBtn">No</button>
+            </div>
+            <div class="meme-container" id="memeContainer"></div>
+        </div>
+
+        <div class="success-message" id="successSection">
+            <div class="hearts">💖✨🎉✨💖</div>
+            <h1>YAAAAY! 🎊</h1>
+            <p class="question">I'm so happy! 😊</p>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXV3bm5oZDdvZnp4ZHN3aGNzbnJ3bnNwdTR5N2JxYnJ5b3B6cXh1biZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l0MYt5jPR6QX5pnqM/giphy.gif" alt="Excited celebration" style="max-width: 100%; border-radius: 10px; margin-top: 20px;">
+            <div class="hearts" style="margin-top: 20px;">💕💝💕</div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const memeContainer = document.getElementById('memeContainer');
+        const questionSection = document.getElementById('questionSection');
+        const successSection = document.getElementById('successSection');
+
+        let noClickCount = 0;
+
+        const noResponses = [
+            {
+                text: "Are you sure? 🥺",
+                image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGF3Mml3OGw5cDF5dG9wd2RhZnVzY3JmcGprZ3o4NGxhcWloYTNrZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/L95W4wv8nnb9K/giphy.gif"
+            },
+            {
+                text: "Think again... 🤔",
+                image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHB0YWhqaTV2dXRrNzY2OGw1emtqcmR6N3ZtbGFwajB5aTBzNnJzZSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26gsjCZpPolPr3sBy/giphy.gif"
+            },
+            {
+                text: "Please? Pretty please? 🥺👉👈",
+                image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGo5aHRkZDl1aTRmcmZ2aGdjNWV2ZWNoeWVpYWJtZnp0dXJscjdjMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ckKf5lA78k5iChFSSP/giphy.gif"
+            },
+            {
+                text: "The No button is broken anyway 🔧",
+                image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHplNHRuZ2R0dHZxdmFkbTZ5MWphOGk3cHJrenJoZjYyeWNjZjlncSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3oEjHWPTo7c0ajPwty/giphy.gif"
+            },
+            {
+                text: "I'll just keep asking until you say yes 😏",
+                image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHdqa3lqaDJ5cGJhcm9veWVneHZ3aTV6bTBrMTdvcGxtN25ubWEybyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7qDEq2bMbcbPRQ2c/giphy.gif"
+            },
+            {
+                text: "You know you want to say yes 😌💕",
+                image: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTQweW42ZGR4bWU2Y3Q3Y2pnYWtkbjExOWxrODlhc2V0ZjRlemFkZCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MDXomrcGshGso/giphy.gif"
+            }
+        ];
+
+        noBtn.addEventListener('click', function() {
+            if (noClickCount < noResponses.length) {
+                const response = noResponses[noClickCount];
+                memeContainer.innerHTML = `
+                    <p class="meme-text">${response.text}</p>
+                    <img src="${response.image}" alt="Please say yes meme">
+                `;
+                noClickCount++;
+
+                // Make Yes button bigger and more prominent
+                const currentSize = 1 + (noClickCount * 0.15);
+                yesBtn.style.transform = `scale(${currentSize})`;
+                
+                // Make No button smaller
+                const noSize = 1 - (noClickCount * 0.1);
+                noBtn.style.transform = `scale(${Math.max(noSize, 0.4)})`;
+            } else {
+                // After all responses, just keep encouraging
+                memeContainer.innerHTML = `
+                    <p class="meme-text">Just click Yes already! 💕</p>
+                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWRhYzY2dXRqNXJ6azZxeTR4YmxscmtnemhuYTQ3N2VlbGd6Z2pkdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/11StaZ9Lj74oCY/giphy.gif" alt="Just say yes">
+                `;
+            }
+        });
+
+        yesBtn.addEventListener('click', function() {
+            questionSection.style.display = 'none';
+            successSection.classList.add('active');
+            
+            // Confetti effect (optional)
+            createConfetti();
+        });
+
+        function createConfetti() {
+            const colors = ['#ff6b9d', '#fecfef', '#ff9a9e', '#ff4081'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '1000';
+                document.body.appendChild(confetti);
+
+                const duration = Math.random() * 3 + 2;
+                const xMovement = (Math.random() - 0.5) * 200;
+                
+                confetti.animate([
+                    { transform: 'translateY(0) translateX(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight + 10}px) translateX(${xMovement}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+
+                setTimeout(() => confetti.remove(), duration * 1000);
+            }
+        }
+    </script>
+</body>
+</html>
